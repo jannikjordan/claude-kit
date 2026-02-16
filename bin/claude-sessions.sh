@@ -139,7 +139,7 @@ rm "$TMP"
 if [[ -n "$SEL" ]]; then
     ID=$(echo "$SEL" | awk '{print $NF}')
     if [[ -f ~/.claude/.yolo ]]; then
-        exec claude --dangerously-skip-permissions --resume "$ID"
+        CLAUDE_CODE_BUBBLEWRAP=1 exec claude --dangerously-skip-permissions --resume "$ID"
     else
         exec claude --resume "$ID"
     fi
