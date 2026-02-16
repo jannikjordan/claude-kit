@@ -31,7 +31,7 @@ NC='\033[0m'
 
 # --- Cross-platform helpers ---
 stat_mtime() {
-    stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null || echo 0
+    stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0
 }
 
 md5_hash() {
