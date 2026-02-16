@@ -8,7 +8,7 @@ unalias claude 2>/dev/null || true
 claude() {
     # "command claude" bypasses this function and runs the real binary
     if [[ -f ~/.claude/.yolo ]]; then
-        command claude --dangerously-skip-permissions "$@"
+        CLAUDE_CODE_BUBBLEWRAP=1 command claude --dangerously-skip-permissions "$@"
     else
         command claude "$@"
     fi
