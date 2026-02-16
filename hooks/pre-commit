@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# Pre-commit Hook for Claude Code
+# Runs tests/linters before allowing commits from Claude
+# ==============================================================================
+
+# Check if this is a Claude commit
+if git log -1 --pretty=%B | grep -q "Co-Authored-By: Claude"; then
+    echo "🤖 Claude commit detected - running pre-commit checks..."
+
+    # Run tests (uncomment and customize for your project)
+    # npm test || exit 1
+    # pytest || exit 1
+    # go test ./... || exit 1
+
+    # Run linter (uncomment and customize)
+    # npm run lint || exit 1
+    # ruff check . || exit 1
+    # golangci-lint run || exit 1
+
+    # Check for sensitive files
+    if git diff --cached --name-only | grep -E "\.(env|credentials|secrets)$"; then
+        echo "❌ Attempting to commit sensitive files!"
+        echo "Files:"
+        git diff --cached --name-only | grep -E "\.(env|credentials|secrets)$"
+        exit 1
+    fi
+
+    # Check for TODOs (warning only)
+    if git diff --cached | grep -i "TODO\|FIXME"; then
+        echo "⚠️  Warning: Commit contains TODO/FIXME comments"
+    fi
+
+    echo "✓ Pre-commit checks passed"
+fi
+
+# Allow commit
+exit 0
